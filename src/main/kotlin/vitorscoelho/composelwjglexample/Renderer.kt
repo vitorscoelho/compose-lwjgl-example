@@ -47,13 +47,13 @@ class Renderer {
     }
 
     private fun bind() {
-        program.bind()
         glBindVertexArray(vaoId)
+        program.bind()
     }
 
     private fun unbind() {
         program.unbind()
-//        glBindVertexArray(0)
+        glBindVertexArray(0)
     }
 
     fun dispose() {
