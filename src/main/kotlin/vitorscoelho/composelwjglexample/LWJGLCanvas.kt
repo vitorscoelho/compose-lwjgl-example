@@ -1,4 +1,4 @@
-package vitorscoelho.composelwjglexample.lwjgl
+package vitorscoelho.composelwjglexample
 
 import org.joml.Matrix4f
 import org.lwjgl.opengl.GL
@@ -46,7 +46,6 @@ class LWJGLCanvas(
 
     fun startLoop() {
         var initialTime = System.currentTimeMillis()
-        println("START")
         val renderLoop: Runnable = object : Runnable {
             override fun run() {
                 val now = System.currentTimeMillis()
@@ -61,5 +60,10 @@ class LWJGLCanvas(
             }
         }
         SwingUtilities.invokeLater(renderLoop)
+    }
+
+    fun dispose() {
+        renderer.dispose()
+        this.disposeCanvas()
     }
 }

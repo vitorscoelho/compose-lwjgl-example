@@ -1,4 +1,4 @@
-package vitorscoelho.composelwjglexample.lwjgl
+package vitorscoelho.composelwjglexample
 
 import org.lwjgl.opengl.GL30.*
 

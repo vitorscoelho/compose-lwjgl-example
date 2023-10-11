@@ -1,4 +1,4 @@
-package vitorscoelho.composelwjglexample.lwjgl
+package vitorscoelho.composelwjglexample
 
 import org.joml.Matrix4f
 import org.lwjgl.opengl.GL30.*
@@ -18,12 +18,12 @@ class Renderer {
     )
     private val program: Program by lazy { Program() }
     private val vaoId: Int by lazy { glGenVertexArrays() }
+    private val vboId: Int by lazy { glGenBuffers() }
 
     fun setup() {
         glBindVertexArray(vaoId)
 
         stackPush().use { stack ->
-            val vboId: Int = glGenBuffers()
             val verticesBuffer = stack.mallocFloat(vertices.size).put(0, vertices)//.flip()
             glBindBuffer(GL_ARRAY_BUFFER, vboId)
             glBufferData(GL_ARRAY_BUFFER, verticesBuffer, GL_STATIC_DRAW)
@@ -34,7 +34,7 @@ class Renderer {
     }
 
     fun render(transformationMatrix: Matrix4f) {
-        program.bind()
+        bind()
         stackPush().use { stack ->
             glUniformMatrix4fv(
                 program.transformationMatrixUniformLocation,
@@ -42,12 +42,24 @@ class Renderer {
                 transformationMatrix.get(stack.mallocFloat(16))
             )
         }
-        glBindVertexArray(vaoId)
         glDrawArrays(GL_TRIANGLES, 0, vertices.size / Program.POSITION_VERTEX_SIZE)
+        unbind()
+    }
+
+    private fun bind() {
+        program.bind()
+        glBindVertexArray(vaoId)
+    }
+
+    private fun unbind() {
         program.unbind()
+//        glBindVertexArray(0)
     }
 
     fun dispose() {
+        unbind()
         program.dispose()
+        glDeleteBuffers(vboId)
+        glDeleteVertexArrays(vaoId)
     }
 }

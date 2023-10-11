@@ -1,4 +1,4 @@
-package vitorscoelho.composelwjglexample.lwjgl
+package vitorscoelho.composelwjglexample
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
@@ -38,7 +38,7 @@ fun main() = application {
                 verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
                 Column {
-                    Text(text = "Move slider or mouse scroll on canvas to control speed", fontSize = 25.sp)
+                    Text(text = "Move slider or mouse scroll on canvas to speed control", fontSize = 25.sp)
                     Divider(thickness = 1.dp, color = Color.DarkGray)
                     Slider(
                         value = rotationSpeed,
@@ -91,13 +91,14 @@ fun LWJGLSwingPanel(
         }
     )
     LaunchedEffect(Unit) {
+        println("START")
         lwjglCanvas.startLoop()
     }
     DisposableEffect(Unit) {
         object : DisposableEffectResult {
             override fun dispose() {
-                println("Disposou")
-//                lwjglCanvas.dispose()
+                lwjglCanvas.dispose()
+                println("FINISH")
             }
         }
     }
